@@ -208,7 +208,6 @@ def build_full_pipeline(
     dm_pairs_file: Path | None = None,
     persistence: object | None = None,
     profile_ids: list[str] | None = None,
-    owner_mode: bool = False,
 ) -> SecurityPipeline:
     """Build the pipeline portion of the 16-layer security stack.
 
@@ -234,7 +233,7 @@ def build_full_pipeline(
         # Layer 1: PII Filter
         PIIFilterLayer(),
         # Layer 2: DLP Block
-        DLPBlockLayer(profile_ids=profile_ids, owner_mode=owner_mode),
+        DLPBlockLayer(profile_ids=profile_ids),
         # Layer 3: Injection Defense
         InjectionDefenseLayer(),
         # Layer 4: Blocklist
