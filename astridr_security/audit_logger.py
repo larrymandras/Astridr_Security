@@ -164,7 +164,7 @@ class AuditLogger:
         return self._log_file
 
 
-# ─── SecurityLayer implementation ────────────────────────────────────
+# ─── SecurityLayer implementation ────────────────────────────────
 
 
 class AuditLoggerLayer(SecurityLayer):
