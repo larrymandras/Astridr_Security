@@ -27,7 +27,7 @@ ApprovalCallback = Callable[[str, dict, SecurityContext], Awaitable[bool]]
 logger = structlog.get_logger()
 
 
-# ─── Escalation triggers ────────────────────────────────────────────
+# ─── Escalation triggers ────────────────────────────────────────
 
 # Maps action names to detection patterns
 ESCALATION_TRIGGERS: dict[str, list[re.Pattern[str]]] = {
