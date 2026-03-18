@@ -269,6 +269,21 @@ class SimpleCredentialStore:
         self._cache_ttl_seconds = cache_ttl_seconds
         self._op_cli_timeout_seconds = op_cli_timeout_seconds
 
+    @staticmethod
+    def _close_proc_transport(proc: Any) -> None:
+        """Close subprocess transport to prevent ResourceWarning on Windows."""
+        if proc is None:
+            return
+        transport = getattr(proc, "_transport", None)
+        if transport is None:
+            return
+        # Only close real transports, not AsyncMock attributes.
+        if isinstance(transport, asyncio.BaseTransport):
+            try:
+                transport.close()
+            except Exception:
+                pass
+
     async def get_secret(self, key: str, requester: str = "system") -> str | None:
         """Retrieve a secret by key using the three-tier resolution chain.
 
@@ -331,6 +346,7 @@ class SimpleCredentialStore:
         if not ref.startswith("op://"):
             return None
 
+        proc = None
         try:
             proc = await asyncio.create_subprocess_exec(
                 "op", "read", ref,
@@ -349,6 +365,9 @@ class SimpleCredentialStore:
             )
             return None
         except asyncio.TimeoutError:
+            if proc is not None:
+                proc.kill()
+                await proc.wait()
             logger.warning("credential.op_timeout", ref=ref)
             return None
         except FileNotFoundError:
@@ -357,10 +376,13 @@ class SimpleCredentialStore:
         except Exception as exc:
             logger.warning("credential.op_error", ref=ref, error=str(exc))
             return None
+        finally:
+            self._close_proc_transport(proc)
 
     async def _resolve_op_direct(self, key: str) -> str | None:
         """Try direct 1Password lookup: ``op read "op://{vault}/{key}/credential"``."""
         ref = f"op://{self._op_vault_name}/{key}/credential"
+        proc = None
         try:
             proc = await asyncio.create_subprocess_exec(
                 "op", "read", ref,
@@ -375,9 +397,14 @@ class SimpleCredentialStore:
             # Not found in 1Password — this is expected for many keys
             return None
         except (FileNotFoundError, asyncio.TimeoutError):
+            if proc is not None:
+                proc.kill()
+                await proc.wait()
             return None
         except Exception:
             return None
+        finally:
+            self._close_proc_transport(proc)
 
     # ── DPAPI cache delegation ──────────────────────────────────────
 
