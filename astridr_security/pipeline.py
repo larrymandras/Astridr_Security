@@ -33,20 +33,12 @@ import structlog
 if TYPE_CHECKING:
     from astridr.engine.telemetry import ConvexHandler
 
+from astridr.core.types import SecurityContext
+
 logger = structlog.get_logger()
 
 
-# ─── Shared data-classes ────────────────────────────────────────────────
-
-
-@dataclass
-class SecurityContext:
-    """Contextual information carried through every security layer."""
-
-    profile_id: str
-    channel_id: str
-    sender_id: str
-    session_id: str | None = None
+# ─── Shared data-classes ──────────────────────────────────────────────────
 
 
 @dataclass
@@ -65,7 +57,7 @@ class SecurityResult:
     blocked_reason: str | None = None
 
 
-# ─── Abstract layer interface ─────────────────────────────────────────
+# ─── Abstract layer interface ───────────────────────────────────────────
 
 
 class SecurityLayer(ABC):
@@ -113,7 +105,7 @@ class SecurityPipeline:
     def layers(self) -> list[SecurityLayer]:
         return list(self._layers)
 
-    # ── public API ────────────────────────────────────────────────
+    # ── public API ────────────────────────────────────────────────────
 
     async def process_inbound(
         self, message: str, context: SecurityContext
@@ -127,7 +119,7 @@ class SecurityPipeline:
         """Run all layers on an outbound message."""
         return await self._run(message, context, direction="outbound")
 
-    # ── internal ──────────────────────────────────────────────────
+    # ── internal ──────────────────────────────────────────────────────
 
     async def _run(
         self,

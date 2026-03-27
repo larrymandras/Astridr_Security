@@ -19,7 +19,7 @@ from astridr.security.pipeline import (
 
 logger = structlog.get_logger()
 
-# ─── URL extraction ──────────────────────────────────────────────────
+# ─── URL extraction ───────────────────────────────────────────────────
 
 _URL_RE = re.compile(
     r"https?://[^\s\"'<>\]\)]+",
@@ -38,7 +38,7 @@ def extract_domain(url: str) -> str:
     return (parsed.hostname or "").lower()
 
 
-# ─── Default allowed domains ─────────────────────────────────────────
+# ─── Default allowed domains ───────────────────────────────────────────
 
 DEFAULT_ALLOWED_DOMAINS: list[str] = [
     "api.openai.com",
@@ -78,7 +78,7 @@ class EgressControlLayer(SecurityLayer):
             d.lower() for d in (blocked_domains or [])
         }
 
-    # ── public helpers ─────────────────────────────────────────────
+    # ── public helpers ─────────────────────────────────────────────────
 
     def is_allowed(self, url: str) -> bool:
         """Check if *url*'s domain is in the allowed list and not blocked."""
@@ -96,7 +96,7 @@ class EgressControlLayer(SecurityLayer):
                 return True
         return False
 
-    # ── layer interface ────────────────────────────────────────────
+    # ── layer interface ────────────────────────────────────────────────
 
     async def process_inbound(
         self, message: str, context: SecurityContext

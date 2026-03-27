@@ -105,7 +105,7 @@ _HOMOGLYPH_MAP: dict[str, str] = {
     "\u0441": "c", "\u0443": "y", "\u0445": "x",
 }
 
-# ─── Obfuscation patterns ────────────────────────────────────────────
+# ─── Obfuscation patterns ──────────────────────────────────────────────
 
 _BASE64_CMD_RE = re.compile(
     r"(?:echo|printf)\s+['\"]?([A-Za-z0-9+/=]{8,})['\"]?\s*\|\s*(?:base64\s+-d|b64decode)",

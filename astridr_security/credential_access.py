@@ -106,7 +106,7 @@ class CredentialStore:
             return None
 
         env_var = f"{self._env_prefix}{key.upper()}"
-        value = os.environ.get(env_var)
+        value = os.environ.get(env_var)  # secretref-ok
 
         entry = CredentialAuditEntry(
             key=key,
@@ -133,7 +133,7 @@ class CredentialStore:
         """
         prefix = self._env_prefix
         keys: list[str] = []
-        for var in os.environ:
+        for var in os.environ:  # secretref-ok
             if var.startswith(prefix):
                 keys.append(var[len(prefix):].lower())
         return sorted(keys)
@@ -220,7 +220,7 @@ class CredentialAccessLayer(SecurityLayer):
         return SecurityResult(allowed=True, message=message, events=events)
 
 
-# ─── Environment variable secret patterns ────────────────────────────
+# ─── Environment variable secret patterns ──────────────────────────────
 
 _SECRET_PATTERNS = [
     r".*_KEY$",
@@ -295,7 +295,7 @@ class SimpleCredentialStore:
         5. ``None``
         """
         # 1. Environment variable
-        value = os.environ.get(key)
+        value = os.environ.get(key)  # secretref-ok
         if value is not None:
             if value.startswith("op://"):
                 resolved = await self._resolve_op_reference(value)
@@ -433,7 +433,7 @@ class SimpleCredentialStore:
         """Re-attempt 1Password/env resolution and update caches."""
         try:
             # Try env first
-            value = os.environ.get(key)
+            value = os.environ.get(key)  # secretref-ok
             if value is not None:
                 if value.startswith("op://"):
                     value = await self._resolve_op_reference(value)
@@ -454,7 +454,7 @@ class SimpleCredentialStore:
 
     async def list_available(self) -> list[str]:
         """Return sorted env var names that look like secrets."""
-        return sorted(n for n in os.environ if self._is_secret_env_var(n))
+        return sorted(n for n in os.environ if self._is_secret_env_var(n))  # secretref-ok
 
     def get_access_log(self, limit: int = 50) -> list[dict[str, Any]]:
         """Return recent access events, most recent first."""

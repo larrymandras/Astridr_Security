@@ -42,7 +42,7 @@ _PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     # AWS access key IDs
     ("aws_key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
     # AWS secret access keys (40-char base64)
-    ("aws_secret", re.compile(r"(?<=['\"]\s=:])[A-Za-z0-9/+=]{40}(?=['\"]\s,\n]|$)")),
+    ("aws_secret", re.compile(r"(?<=['\"\ s=:])[A-Za-z0-9/+=]{40}(?=['\"\ s,\n]|$)")),
     # JWTs (three base64url sections separated by dots)
     ("jwt", re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b")),
     # Generic passwords in config-style text
