@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 logger = structlog.get_logger()
 
 
-# ─── Credential request patterns ────────────────────────────────
+# ─── Credential request patterns ──────────────────────────────────────
 
 _CREDENTIAL_REQUEST_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"\bget\s+(?:secret|credential|password|api[_\s-]?key|token)\b", re.I),
@@ -48,7 +48,7 @@ _CREDENTIAL_VALUE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 
-# ─── Audit entry ─────────────────────────────────────────────────
+# ─── Audit entry ─────────────────────────────────────────────────────
 
 
 @dataclass
@@ -63,7 +63,7 @@ class CredentialAuditEntry:
     reason: str = ""
 
 
-# ─── CredentialStore ─────────────────────────────────────────────
+# ─── CredentialStore ─────────────────────────────────────────────────
 
 
 class CredentialStore:
@@ -144,7 +144,7 @@ class CredentialStore:
         return list(self._audit_log)
 
 
-# ─── SecurityLayer implementation ────────────────────────────────
+# ─── SecurityLayer implementation ──────────────────────────────────────
 
 
 class CredentialAccessLayer(SecurityLayer):
@@ -220,7 +220,7 @@ class CredentialAccessLayer(SecurityLayer):
         return SecurityResult(allowed=True, message=message, events=events)
 
 
-# ─── Environment variable secret patterns ────────────────────────
+# ─── Environment variable secret patterns ────────────────────────────
 
 _SECRET_PATTERNS = [
     r".*_KEY$",
@@ -236,7 +236,7 @@ _SECRET_PATTERNS = [
 _SECRET_RE = re.compile("|".join(_SECRET_PATTERNS), re.IGNORECASE)
 
 
-# ─── SimpleCredentialStore ───────────────────────────────────────
+# ─── SimpleCredentialStore ───────────────────────────────────────────
 
 
 class SimpleCredentialStore:
@@ -339,7 +339,7 @@ class SimpleCredentialStore:
         self._log_access(key, requester, found=False, source="none")
         return None
 
-    # ── 1Password resolution ────────────────────────────────────────
+    # ── 1Password resolution ────────────────────────────────────────────
 
     async def _resolve_op_reference(self, ref: str) -> str | None:
         """Resolve a 1Password ``op://`` reference via the CLI."""
@@ -406,7 +406,7 @@ class SimpleCredentialStore:
         finally:
             self._close_proc_transport(proc)
 
-    # ── DPAPI cache delegation ──────────────────────────────────────
+    # ── DPAPI cache delegation ──────────────────────────────────────────
 
     async def _dpapi_get(self, key: str) -> tuple[str | None, bool]:
         """Retrieve from DPAPI cache, or ``(None, False)`` if unavailable."""
@@ -419,7 +419,7 @@ class SimpleCredentialStore:
         if self._dpapi_cache is not None:
             await self._dpapi_cache.put(key, value, source)
 
-    # ── Background refresh for stale entries ────────────────────────
+    # ── Background refresh for stale entries ────────────────────────────
 
     def _schedule_background_refresh(self, key: str, requester: str) -> None:
         """Fire-and-forget background refresh for stale DPAPI entries."""
@@ -450,7 +450,7 @@ class SimpleCredentialStore:
         except Exception as exc:
             logger.debug("credential.background_refresh_failed", key=key, error=str(exc))
 
-    # ── Public API (unchanged) ──────────────────────────────────────
+    # ── Public API (unchanged) ──────────────────────────────────────────
 
     async def list_available(self) -> list[str]:
         """Return sorted env var names that look like secrets."""

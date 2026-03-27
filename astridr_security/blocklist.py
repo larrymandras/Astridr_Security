@@ -19,7 +19,7 @@ from astridr.security.pipeline import (
 logger = structlog.get_logger()
 
 
-# ─── Result dataclass ─────────────────────────────────────────────
+# ─── Result dataclass ─────────────────────────────────────────────────
 
 
 @dataclass
@@ -31,7 +31,7 @@ class BlocklistResult:
     matched_pattern: str | None = None
 
 
-# ─── Default blocked patterns ─────────────────────────────────────
+# ─── Default blocked patterns ─────────────────────────────────────────
 
 _BLOCKED_COMMANDS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\brm\s+-\w*r\w*f\w*\s+/", re.I), "recursive delete from root"),
@@ -59,7 +59,7 @@ _BLOCKED_PATHS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 
-# ─── Public API ───────────────────────────────────────────────────
+# ─── Public API ───────────────────────────────────────────────────────
 
 
 def check_command(
@@ -112,7 +112,7 @@ def check(
     return check_path(text, extra_patterns=extra_path_patterns)
 
 
-# ─── SecurityLayer implementation ─────────────────────────────────
+# ─── SecurityLayer implementation ─────────────────────────────────────
 
 
 class BlocklistLayer(SecurityLayer):

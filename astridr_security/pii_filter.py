@@ -20,7 +20,7 @@ from astridr.security.pipeline import (
 logger = structlog.get_logger()
 
 
-# ─── Action modes ─────────────────────────────────────────────────
+# ─── Action modes ─────────────────────────────────────────────────────
 
 
 class PIIAction(str, Enum):
@@ -29,7 +29,7 @@ class PIIAction(str, Enum):
     BLOCK = "block"
 
 
-# ─── Detection dataclass ─────────────────────────────────────────
+# ─── Detection dataclass ───────────────────────────────────────────────
 
 
 @dataclass
@@ -40,7 +40,7 @@ class PIIDetection:
     end: int
 
 
-# ─── Patterns ─────────────────────────────────────────────────────
+# ─── Patterns ─────────────────────────────────────────────────────────
 
 _PII_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("email", re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b")),
@@ -53,7 +53,7 @@ _PII_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
 ]
 
 
-# ─── Public API ───────────────────────────────────────────────────
+# ─── Public API ───────────────────────────────────────────────────────
 
 
 def detect(text: str) -> list[PIIDetection]:
@@ -86,7 +86,7 @@ def redact_pii(text: str) -> str:
     return result
 
 
-# ─── SecurityLayer implementation ─────────────────────────────────
+# ─── SecurityLayer implementation ─────────────────────────────────────
 
 
 class PIIFilterLayer(SecurityLayer):
