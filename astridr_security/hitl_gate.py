@@ -27,7 +27,7 @@ ApprovalCallback = Callable[[str, dict, SecurityContext], Awaitable[bool]]
 logger = structlog.get_logger()
 
 
-# ─── Escalation triggers ──────────────────────────────────────────────
+# ─── Escalation triggers ───────────────────────────────────────────
 
 # Maps action names to detection patterns
 ESCALATION_TRIGGERS: dict[str, list[re.Pattern[str]]] = {
@@ -64,7 +64,7 @@ ESCALATION_TRIGGERS: dict[str, list[re.Pattern[str]]] = {
 DEFAULT_APPROVAL_TIMEOUT = 300  # 5 minutes
 
 
-# ─── Approval result ─────────────────────────────────────────────────
+# ─── Approval result ───────────────────────────────────────────────
 
 
 @dataclass
@@ -80,7 +80,7 @@ class ApprovalRequest:
     response_timestamp: float | None = None
 
 
-# ─── HITL Gate Layer ─────────────────────────────────────────────────
+# ─── HITL Gate Layer ───────────────────────────────────────────────
 
 
 class HITLGateLayer(SecurityLayer):

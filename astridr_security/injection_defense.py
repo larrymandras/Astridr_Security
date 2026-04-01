@@ -29,7 +29,7 @@ from astridr.security.pipeline import (
 logger = structlog.get_logger()
 
 
-# ─── Severity ─────────────────────────────────────────────────────────
+# ─── Severity ───────────────────────────────────────────────────────
 
 
 class Severity(str, Enum):
@@ -38,7 +38,7 @@ class Severity(str, Enum):
     CRITICAL = "critical"
 
 
-# ─── Detection result ─────────────────────────────────────────────────
+# ─── Detection result ───────────────────────────────────────────────
 
 
 @dataclass
@@ -48,7 +48,7 @@ class InjectionDetection:
     severity: Severity
 
 
-# ─── Known injection phrases ──────────────────────────────────────────
+# ─── Known injection phrases ────────────────────────────────────────
 
 _INJECTION_PHRASES: list[tuple[re.Pattern[str], Severity]] = [
     (re.compile(r"ignore\s+(?:all\s+)?previous\s+instructions", re.I), Severity.CRITICAL),
@@ -63,7 +63,7 @@ _INJECTION_PHRASES: list[tuple[re.Pattern[str], Severity]] = [
     (re.compile(r"do\s+not\s+follow\s+(?:any|your)\s+(?:rules|guidelines)", re.I), Severity.CRITICAL),
 ]
 
-# ─── Delimiter injection patterns ──────────────────────────────────────
+# ─── Delimiter injection patterns ────────────────────────────────────
 
 _DELIMITER_PATTERNS: list[re.Pattern[str]] = [
     # Fake XML-ish tags that look like system instructions
@@ -74,7 +74,7 @@ _DELIMITER_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"^#{1,3}\s*(?:system|instruction|new\s+rules)", re.I | re.M),
 ]
 
-# ─── Unicode suspicious characters ─────────────────────────────────────
+# ─── Unicode suspicious characters ───────────────────────────────────
 
 # Zero-width and bidi control characters
 _SUSPICIOUS_CODEPOINTS: set[int] = {
@@ -105,7 +105,7 @@ _HOMOGLYPH_MAP: dict[str, str] = {
     "\u0441": "c", "\u0443": "y", "\u0445": "x",
 }
 
-# ─── Obfuscation patterns ──────────────────────────────────────────────
+# ─── Obfuscation patterns ──────────────────────────────────────────
 
 _BASE64_CMD_RE = re.compile(
     r"(?:echo|printf)\s+['\"]?([A-Za-z0-9+/=]{8,})['\"]?\s*\|\s*(?:base64\s+-d|b64decode)",
@@ -117,7 +117,7 @@ _OCTAL_ESCAPE_RE = re.compile(r"(?:\\[0-7]{3}){4,}")
 _VAR_EXPANSION_RE = re.compile(r"\$\{[^}]*\}\s*\$\{[^}]*\}", re.I)
 
 
-# ─── Public API ───────────────────────────────────────────────────────
+# ─── Public API ─────────────────────────────────────────────────────
 
 
 def analyse(text: str) -> list[InjectionDetection]:
@@ -171,7 +171,7 @@ def max_severity(detections: list[InjectionDetection]) -> Severity | None:
     return max(detections, key=lambda d: order[d.severity]).severity
 
 
-# ─── Internal helpers ─────────────────────────────────────────────────
+# ─── Internal helpers ───────────────────────────────────────────────
 
 
 def _check_unicode(text: str) -> list[InjectionDetection]:
@@ -260,7 +260,7 @@ def _check_obfuscation(text: str) -> list[InjectionDetection]:
     return detections
 
 
-# ─── SecurityLayer implementation ─────────────────────────────────────
+# ─── SecurityLayer implementation ───────────────────────────────────
 
 
 class InjectionDefenseLayer(SecurityLayer):

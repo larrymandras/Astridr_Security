@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 logger = structlog.get_logger()
 
 
-# ─── Credential request patterns ──────────────────────────────────────
+# ─── Credential request patterns ────────────────────────────────────
 
 _CREDENTIAL_REQUEST_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"\bget\s+(?:secret|credential|password|api[_\s-]?key|token)\b", re.I),
@@ -48,7 +48,7 @@ _CREDENTIAL_VALUE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 
-# ─── Audit entry ─────────────────────────────────────────────────────
+# ─── Audit entry ───────────────────────────────────────────────────
 
 
 @dataclass
@@ -63,7 +63,7 @@ class CredentialAuditEntry:
     reason: str = ""
 
 
-# ─── CredentialStore ─────────────────────────────────────────────────
+# ─── CredentialStore ───────────────────────────────────────────────
 
 
 class CredentialStore:
@@ -144,7 +144,7 @@ class CredentialStore:
         return list(self._audit_log)
 
 
-# ─── SecurityLayer implementation ──────────────────────────────────────
+# ─── SecurityLayer implementation ────────────────────────────────────
 
 
 class CredentialAccessLayer(SecurityLayer):
@@ -220,7 +220,7 @@ class CredentialAccessLayer(SecurityLayer):
         return SecurityResult(allowed=True, message=message, events=events)
 
 
-# ─── Environment variable secret patterns ──────────────────────────────
+# ─── Environment variable secret patterns ────────────────────────────
 
 _SECRET_PATTERNS = [
     r".*_KEY$",
@@ -236,7 +236,7 @@ _SECRET_PATTERNS = [
 _SECRET_RE = re.compile("|".join(_SECRET_PATTERNS), re.IGNORECASE)
 
 
-# ─── SimpleCredentialStore ───────────────────────────────────────────
+# ─── SimpleCredentialStore ─────────────────────────────────────────
 
 
 class SimpleCredentialStore:

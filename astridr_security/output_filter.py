@@ -20,7 +20,7 @@ from astridr.security.pipeline import (
 logger = structlog.get_logger()
 
 
-# ─── Filter patterns ─────────────────────────────────────────────────
+# ─── Filter patterns ───────────────────────────────────────────────
 
 # Each tuple: (compiled regex, replacement text)
 FILTER_PATTERNS: list[tuple[re.Pattern[str], str]] = [
@@ -47,7 +47,7 @@ FILTER_PATTERNS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 
-# ─── Public API ──────────────────────────────────────────────────────
+# ─── Public API ────────────────────────────────────────────────────
 
 
 def filter_output(text: str, patterns: list[tuple[re.Pattern[str], str]] | None = None) -> tuple[str, int]:
@@ -66,7 +66,7 @@ def filter_output(text: str, patterns: list[tuple[re.Pattern[str], str]] | None 
     return result, total_replacements
 
 
-# ─── SecurityLayer implementation ──────────────────────────────────────
+# ─── SecurityLayer implementation ────────────────────────────────────
 
 
 class OutputFilterLayer(SecurityLayer):
