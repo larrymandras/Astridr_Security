@@ -38,7 +38,7 @@ from astridr.core.types import SecurityContext
 logger = structlog.get_logger()
 
 
-# ─── Shared data-classes ──────────────────────────────────────────────────
+# ─── Shared data-classes ──────────────────────────────────────────
 
 
 @dataclass
@@ -57,7 +57,7 @@ class SecurityResult:
     blocked_reason: str | None = None
 
 
-# ─── Abstract layer interface ───────────────────────────────────────────
+# ─── Abstract layer interface ─────────────────────────────────────
 
 
 class SecurityLayer(ABC):
@@ -83,7 +83,7 @@ class SecurityLayer(ABC):
         ...
 
 
-# ─── Pipeline ───────────────────────────────────────────────────────
+# ─── Pipeline ─────────────────────────────────────────────────────
 
 
 class SecurityPipeline:
@@ -105,7 +105,7 @@ class SecurityPipeline:
     def layers(self) -> list[SecurityLayer]:
         return list(self._layers)
 
-    # ── public API ────────────────────────────────────────────────────
+    # ── public API ────────────────────────────────────────────────
 
     async def process_inbound(
         self, message: str, context: SecurityContext
@@ -119,7 +119,7 @@ class SecurityPipeline:
         """Run all layers on an outbound message."""
         return await self._run(message, context, direction="outbound")
 
-    # ── internal ──────────────────────────────────────────────────────
+    # ── internal ──────────────────────────────────────────────────
 
     async def _run(
         self,

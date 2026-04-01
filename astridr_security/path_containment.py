@@ -15,7 +15,7 @@ import structlog
 logger = structlog.get_logger()
 
 
-# ─── Errors ────────────────────────────────────────────────────────
+# ─── Errors ──────────────────────────────────────────────────────
 
 
 class SecurityError(Exception):
@@ -26,14 +26,14 @@ class ArchiveValidationError(SecurityError):
     """Raised when an archive fails safety checks."""
 
 
-# ─── Root directories ──────────────────────────────────────────────
+# ─── Root directories ────────────────────────────────────────────
 
 SKILLS_ROOT = Path("~/.astridr/skills").expanduser().resolve()
 HOOKS_ROOT = Path("~/.astridr/hooks").expanduser().resolve()
 PLUGINS_ROOT = Path("~/.astridr/plugins").expanduser().resolve()
 
 
-# ─── Path validation ───────────────────────────────────────────────
+# ─── Path validation ─────────────────────────────────────────────
 
 
 def validate_path(path: str | Path, root: Path) -> Path:
@@ -66,7 +66,7 @@ def validate_plugin_path(path: str | Path) -> Path:
     return validate_path(path, PLUGINS_ROOT)
 
 
-# ─── Archive validation ────────────────────────────────────────────
+# ─── Archive validation ──────────────────────────────────────────
 
 _DEFAULT_MAX_ENTRIES = 1000
 _DEFAULT_MAX_TOTAL_BYTES = 100_000_000  # 100 MB

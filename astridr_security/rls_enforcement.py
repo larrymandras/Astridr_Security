@@ -19,7 +19,7 @@ from astridr.security.pipeline import (
 
 logger = structlog.get_logger()
 
-# ─── Cross-profile detection ────────────────────────────────────────
+# ─── Cross-profile detection ────────────────────────────────────
 
 # Pattern that matches profile IDs in text (e.g., profile_id=xxx, profileId:"xxx")
 _PROFILE_REF_RE = re.compile(
@@ -33,7 +33,7 @@ def _extract_profile_references(text: str) -> list[str]:
     return _PROFILE_REF_RE.findall(text)
 
 
-# ─── Query scoping ──────────────────────────────────────────────────
+# ─── Query scoping ──────────────────────────────────────────────
 
 
 def scope_query(query: str, profile_id: str) -> str:
@@ -78,7 +78,7 @@ def scope_query(query: str, profile_id: str) -> str:
     return f"{stripped} WHERE {clause}"
 
 
-# ─── SecurityLayer implementation ────────────────────────────────────
+# ─── SecurityLayer implementation ────────────────────────────────
 
 
 class RLSEnforcementLayer(SecurityLayer):

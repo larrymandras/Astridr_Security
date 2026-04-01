@@ -25,13 +25,13 @@ from astridr.security.pipeline import (
 logger = structlog.get_logger()
 
 
-# ─── Constants ───────────────────────────────────────────────────────
+# ─── Constants ───────────────────────────────────────────────────
 
 _DEFAULT_LOG_DIR = Path("~/.astridr/audit").expanduser()
 _GENESIS_HASH = "0" * 64  # SHA-256 of nothing — chain anchor
 
 
-# ─── Audit logger ────────────────────────────────────────────────────
+# ─── Audit logger ────────────────────────────────────────────────
 
 
 class AuditLogger:
@@ -164,7 +164,7 @@ class AuditLogger:
         return self._log_file
 
 
-# ─── SecurityLayer implementation ────────────────────────────────────
+# ─── SecurityLayer implementation ────────────────────────────────
 
 
 class AuditLoggerLayer(SecurityLayer):
